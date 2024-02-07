@@ -1,0 +1,62 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import Hero from '../components/Hero.astro'
+import Feature from '../components/Feature.astro'
+import Counter from '../components/Counter.astro'
+import ContentMedia from '../components/ContentMedia.astro'
+---
+
+<DefaultLayout title="MidnightLib">
+  <ContentMedia imgSrc="/accessible-components.webp">
+    <h2>Accessible Components</h2>
+    <p class="text-2xl">
+      This theme provides plenty of tried and tested Accessible Astro Components. Some are native to this theme and a
+      lot of others are integrated using a <a href="https://github.com/markteekman/accessible-astro-components"
+        >separate package</a
+      >. They'll get you up and running in building an accessible solution for your visitors.
+    </p>
+  </ContentMedia>
+  <ContentMedia imgSrc="/wcag-compliant.webp" reverseImg={true}>
+    <h2>WCAG 2.1 AA Compliant</h2>
+    <p class="text-2xl">
+      Using semantic HTML, landmarks, skip links, screen reader friendly content, aria-labels, keyboard accessible
+      navigation and components, clear outlines and tab indicators and the right color contrast, you're more certain of
+      reaching WCAG AA compliance.
+    </p>
+  </ContentMedia>
+  <section class="my-64">
+    <div class="container">
+      <h2 class="mb-16 text-6xl">Features</h2>
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+        <Feature icon="mdi:feather" title="Lightweight">
+          Size of the .jar is currently just 50KB.<br>Everything essential for the config (including GUI) is only 30KB!
+        </Feature>
+        <Feature icon="mdi:coffee" title="JiJ-able">
+          Bundle MidnightLib with your mod with ease. Gone are the days of installing dependencies manually!
+        </Feature>
+        <Feature icon="mdi:laptop" title="Automated">
+          Automatic generation of config screens (and server-side commands) makes adding config options a breeze!
+        </Feature>
+        <Feature icon="mdi:cog" title="Powerful">
+          Supports booleans, numbers (int, float, double), strings, enums, hex colors and string lists!
+        </Feature>
+        <Feature icon="mdi:person" title="User-friendly">
+          Organize your config screen using comments, sliders, colors and tabs.
+        </Feature>
+        <Feature icon="mdi:language-markdown" title="Commands">
+          Operators can edit server configs using /midnightconfig &lt;modid&gt; &lt;option&gt;
+        </Feature>
+      </div>
+    </div>
+  </section>
+  <section class="mb-32 mt-64">
+    <div class="container">
+      <h2 class="mb-16 text-6xl">Statistics</h2>
+      <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3">
+        <Counter icon="ion:star" count="484+" title="Stars in Total" sub="On GitHub" />
+        <Counter icon="ion:download" count="61.000.000+" title="Total Downloads" sub="Modrinth & CurseForge" />
+        <Counter icon="ion:code-slash" count="5+" title="Years" sub="Development experience" />
+      </div>
+    </div>
+  </section>
+</DefaultLayout>
