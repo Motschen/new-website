@@ -1,30 +1,27 @@
 ---
 import DefaultLayout from '../layouts/DefaultLayout.astro'
-import Hero from '../components/Hero.astro'
 import Feature from '../components/Feature.astro'
-import Counter from '../components/Counter.astro'
+import CallToAction from '../components/CallToAction.astro'
 import ContentMedia from '../components/ContentMedia.astro'
 ---
 
 <DefaultLayout title="MidnightLib">
-  <ContentMedia imgSrc="/accessible-components.webp">
-    <h2>Accessible Components</h2>
+  <ContentMedia imgSrc="/midnightlib-example-code.png">
+    <h2>Implement configurations easier than ever!</h2>
     <p class="text-2xl">
-      This theme provides plenty of tried and tested Accessible Astro Components. Some are native to this theme and a
-      lot of others are integrated using a <a href="https://github.com/markteekman/accessible-astro-components"
-        >separate package</a
-      >. They'll get you up and running in building an accessible solution for your visitors.
+      Just create Java fields, annotate them with @Entry, maybe add some more additional options, and boom! <br>
+      This example can be found <a href="https://github.com/TeamMidnightDust/MidnightLib/blob/architectury/MidnightConfigExample.java"
+        >here</a>, and helps you get started (almost) faster than speed of light!
     </p>
   </ContentMedia>
-  <ContentMedia imgSrc="/wcag-compliant.webp" reverseImg={true}>
-    <h2>WCAG 2.1 AA Compliant</h2>
+  <ContentMedia imgSrc="/midnightlib-example.png" reverseImg={true}>
+    <h2>User-friendly config screens</h2>
     <p class="text-2xl">
-      Using semantic HTML, landmarks, skip links, screen reader friendly content, aria-labels, keyboard accessible
-      navigation and components, clear outlines and tab indicators and the right color contrast, you're more certain of
-      reaching WCAG AA compliance.
+      Configuration screens are automatically created from config classes.<br>
+      Here's one generated from a class similar to the one from above!
     </p>
   </ContentMedia>
-  <section class="my-64">
+  <section>
     <div class="container">
       <h2 class="mb-16 text-6xl">Features</h2>
       <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
@@ -43,20 +40,15 @@ import ContentMedia from '../components/ContentMedia.astro'
         <Feature icon="mdi:person" title="User-friendly">
           Organize your config screen using comments, sliders, colors and tabs.
         </Feature>
-        <Feature icon="mdi:language-markdown" title="Commands">
-          Operators can edit server configs using /midnightconfig &lt;modid&gt; &lt;option&gt;
+        <Feature icon="mdi:world" title="Universal">
+          MidnightLib is compatible with Quilt, Fabric and (Neo-)Forge, making it ideal for multiplatform mods!
         </Feature>
       </div>
     </div>
   </section>
-  <section class="mb-32 mt-64">
-    <div class="container">
-      <h2 class="mb-16 text-6xl">Statistics</h2>
-      <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3">
-        <Counter icon="ion:star" count="484+" title="Stars in Total" sub="On GitHub" />
-        <Counter icon="ion:download" count="61.000.000+" title="Total Downloads" sub="Modrinth & CurseForge" />
-        <Counter icon="ion:code-slash" count="5+" title="Years" sub="Development experience" />
-      </div>
-    </div>
-  </section>
+  <CallToAction text="Start using MidnightLib right now!" 
+  url_gh="https://github.com/TeamMidnightDust/MidnightLib" 
+  url_mr="https://modrinth.com/mod/midnightlib"
+  url_cf="https://www.curseforge.com/minecraft/mc-mods/midnightlib"
+  />
 </DefaultLayout>
