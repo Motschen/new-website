@@ -1,14 +1,9 @@
 [
     {
-      "userId": 1,
-      "id": 1,
+      "userId": "Martin Prokoph",
+      "date": "08.02.2024",
       "title": "So... I have a new website now!",
-      "body": "After years of just having a lame and half broken, useless site, I proudly present my new website.\nIt is built using Astro to achieve blazing fast performance, eye candy and usefulness at the same time."
-    },
-    {
-      "userId": 1,
-      "id": 2,
-      "title": "qui est esse",
-      "body": "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
+      "body": "After years of just having a lame and half broken, useless site, I proudly present my new website.\nIt is built using Astro to achieve blazing fast performance, eye candy and usefulness at the same time.",
+      "img": "/social-preview-image.png"
     }
 ]

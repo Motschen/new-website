@@ -1,5 +1,5 @@
 ---
-import { loaderList, selectedLoader, selectedVersion } from '../js/modversion.js'
+import { loaderList, versionList, selectedLoader, selectedVersion } from '../js/modversion.js'
 ---
 
 <div id="version-dropdown">
@@ -9,25 +9,21 @@ import { loaderList, selectedLoader, selectedVersion } from '../js/modversion.js
           <li class="menu-item has-version-dropdown">
             <button aria-haspopup="true" aria-expanded="false">{selectedLoader.charAt(0).toUpperCase() + selectedLoader.slice(1)}</button>
             <ul class="dropdown-menu"> 
-              { loaderList.forEach((loader) =>
+              { loaderList.map((loader) =>
                 <li class="submenu-item">
-                  <a href="">{loader.charAt(0).toUpperCase() + loader.slice(1)}</a>
+                  <a href="javascript:;">{loader.charAt(0).toUpperCase() + loader.slice(1)}</a>
                 </li>
               )}
-              <li class="submenu-item">
-                <a href="javascript:;">Quilt</a>
-              </li>
-              <li class="submenu-item">
-                <a href="javascript:;">Forge</a>
-              </li>
             </ul>
           </li>
           <li class="menu-item has-version-dropdown">
             <button aria-haspopup="true" aria-expanded="false">{selectedVersion}</button>
             <ul class="dropdown-menu">
-              <li class="submenu-item">
-                <a href="">MidnightLib</a>
-              </li>
+              { versionList.map((version) =>
+                <li class="submenu-item">
+                  <a href="javascript:;">{version}</a>
+                </li>
+              )}
             </ul>
           </li>
         </ul>
