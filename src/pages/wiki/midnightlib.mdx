@@ -3,14 +3,22 @@ layout: ../../layouts/MarkdownLayout.astro
 title: MidnightLib Wiki
 ---
 
+import VersionDropdown from '../../components/VersionDropdown.astro'
 import { Icon } from 'astro-icon/components'
 import { Notification } from 'accessible-astro-components'
+import { resultingVersion } from '../../js/modversion.js'
 
 # MidnightLib Wiki
 
 Welcome to the MidnightLib wiki. Thanks for showing interest in our library!  
 This documentation aims to show you how to use the config system and the other features the library provides.  
 Use the tabs on the right side to switch between the different pages.
+
+Explore MidnightLib's features on this page!
+<a class="button has-icon color-secondary text-center text-lg items-center" href="/midnightlib">
+<Icon name="ion:bookmark-outline" />
+Get to know the features
+          </a>
 
 To use the library in your mods, just edit `build.gradle` and `gradle.properties` as seen below:
 ### `build.gradle`
@@ -26,19 +34,20 @@ dependencies {
   modImplementation include "maven.modrinth:midnightlib:${project.midnightlib_version}"  
 }
 ```
-### `gradle.properties`  
-```js
-midnightlib_version=1.5.3-fabric
-```
+### `gradle.properties`
+<VersionDropdown></VersionDropdown>
+{<pre><code className="language-java">midnightlib_version = {resultingVersion}</code></pre>}
+
 <Notification type="info">
   <Icon name="ion:information-circle-outline" />
   <p>
     <strong>Info:</strong> You should always pick the version that suits your modloader and Minecraft version best.  
+    The version selector is currently still WIP.  
     Find all available versions on [Modrinth](https://www.modrinth.com/mod/midnightlib/versions)
   </p>
 </Notification>  
 
-### `MidnightConfigExample.java`
+### `YourConfigClass.java`
 To get started with implementing the config, you must create a public class that extends MidnightConfig.  
 In this class, your variables can be stored and accessed. Here you can see the contents of an example config class:
 ```java

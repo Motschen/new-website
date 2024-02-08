@@ -1,0 +1,315 @@
+---
+import { loaderList, selectedLoader, selectedVersion } from '../js/modversion.js'
+---
+
+<div id="version-dropdown">
+  <div class="container">
+    <div class="wrapper">
+        <ul class="version-dropdowns">
+          <li class="menu-item has-version-dropdown">
+            <button aria-haspopup="true" aria-expanded="false">{selectedLoader.charAt(0).toUpperCase() + selectedLoader.slice(1)}</button>
+            <ul class="dropdown-menu"> 
+              { loaderList.forEach((loader) =>
+                <li class="submenu-item">
+                  <a href="">{loader.charAt(0).toUpperCase() + loader.slice(1)}</a>
+                </li>
+              )}
+              <li class="submenu-item">
+                <a href="javascript:;">Quilt</a>
+              </li>
+              <li class="submenu-item">
+                <a href="javascript:;">Forge</a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item has-version-dropdown">
+            <button aria-haspopup="true" aria-expanded="false">{selectedVersion}</button>
+            <ul class="dropdown-menu">
+              <li class="submenu-item">
+                <a href="">MidnightLib</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // variables
+    const mainElement = document.querySelector('#version-dropdown')
+    const mainMenu = mainElement.querySelector('ul')
+    const dropdownMenus = [...document.querySelectorAll('.has-version-dropdown button')]
+
+    // functions
+    const setActiveMenuItem = () => {
+      const mobileDesktopMenus = mainElement.querySelectorAll('div > ul')
+      const currenPathname = window.location.pathname
+
+      mobileDesktopMenus.forEach((menu) => {
+        const menuItems = [...menu.querySelectorAll('a:not([rel*="external"])')] as HTMLAnchorElement[]
+
+        menuItems.forEach((menuItem) => {
+          if (currenPathname.includes(menuItem.pathname.replaceAll('/', ''))) {
+            menuItem.classList.add('is-active')
+            menuItem.setAttribute('aria-current', 'page')
+          }
+        })
+      })
+    }
+
+    const isOutOfViewport = (element) => {
+      const elementBounds = element.getBoundingClientRect()
+      return elementBounds.right > (window.innerWidth || document.documentElement.clientWidth)
+    }
+
+    const openDropdownMenu = (dropdownMenu) => {
+      const dropdownList = dropdownMenu.parentNode.querySelector('ul')
+
+      dropdownMenu.classList.add('show')
+      dropdownMenu.setAttribute('aria-expanded', 'true')
+
+      if (isOutOfViewport(dropdownList)) {
+        dropdownList.style.left = 'auto'
+      }
+    }
+
+    const closeDropdownMenu = (dropdownMenu) => {
+      dropdownMenu.classList.remove('show')
+      dropdownMenu.setAttribute('aria-expanded', 'false')
+    }
+
+    const closeAllDropdownMenus = () => {
+      for (let i = 0; i < dropdownMenus.length; i++) {
+        closeDropdownMenu(dropdownMenus[i])
+      }
+    }
+
+    const toggleDropdownMenu = (event) => {
+      if (event.target.getAttribute('aria-expanded') === 'false') {
+        closeAllDropdownMenus()
+        openDropdownMenu(event.target)
+      } else {
+        closeDropdownMenu(event.target)
+      }
+    }
+
+    // execution
+    mainMenu &&
+      mainMenu.addEventListener('keydown', (event) => {
+        const element = event.target as Element
+        const currentMenuItem = element.closest('li')
+        const menuItems = [...mainMenu.querySelectorAll('.menu-item')]
+        const currentDropdownMenu = element.closest('.has-dropdown button')
+        const currentDropdownMenuItem = element.closest('.has-version-dropdown li')
+        const currentIndex = menuItems.findIndex((item) => item === currentMenuItem)
+
+        const key = event.key
+        let targetItem
+
+        if (key === 'ArrowRight') {
+          if (menuItems.indexOf(currentMenuItem) === menuItems.length - 1) {
+            targetItem = menuItems[0]
+          } else {
+            targetItem = menuItems[currentIndex + 1]
+          }
+        }
+
+        if (key === 'ArrowLeft') {
+          if (menuItems.indexOf(currentMenuItem) === 0) {
+            targetItem = menuItems[menuItems.length - 1]
+          } else {
+            targetItem = menuItems[currentIndex - 1]
+          }
+        }
+
+        if (key === 'Escape') {
+          targetItem = menuItems[0]
+        }
+
+        if (currentDropdownMenu) {
+          const firstDropdownItem = currentDropdownMenu.nextElementSibling.querySelector('li')
+
+          if (key === 'ArrowDown') {
+            event.preventDefault()
+            openDropdownMenu(currentDropdownMenu)
+            targetItem = firstDropdownItem
+          }
+
+          if (key === 'Escape') {
+            closeDropdownMenu(currentDropdownMenu)
+          }
+        }
+
+        if (currentDropdownMenuItem) {
+          const currentDropdownList = currentDropdownMenuItem.parentNode
+          const dropdownMenuItems = [...currentDropdownList.querySelectorAll('li')]
+          const currentIndex = dropdownMenuItems.findIndex((item) => item === currentDropdownMenuItem)
+
+          if (key === 'ArrowDown') {
+            event.preventDefault()
+
+            if (dropdownMenuItems.indexOf(currentDropdownMenuItem as HTMLLIElement) === dropdownMenuItems.length - 1) {
+              targetItem = dropdownMenuItems[0]
+            } else {
+              targetItem = dropdownMenuItems[currentIndex + 1]
+            }
+          }
+
+          if (key === 'ArrowUp') {
+            event.preventDefault()
+
+            if (dropdownMenuItems.indexOf(currentDropdownMenuItem as HTMLLIElement) === 0) {
+              targetItem = dropdownMenuItems[dropdownMenuItems.length - 1]
+            } else {
+              targetItem = dropdownMenuItems[currentIndex - 1]
+            }
+          }
+
+          if (key === 'Escape') {
+            const currentDropdownMenu = (currentDropdownList as Element).previousElementSibling
+            targetItem = currentDropdownMenu.parentNode
+            closeAllDropdownMenus()
+          }
+
+          if (key === 'Tab') {
+            const currentDropdownMenu = (currentDropdownList as Element).previousElementSibling
+
+            if (dropdownMenuItems.indexOf(currentDropdownMenuItem as HTMLLIElement) === dropdownMenuItems.length - 1) {
+              closeDropdownMenu(currentDropdownMenu)
+            }
+          }
+        }
+
+        if (targetItem) {
+          targetItem.querySelector('a, button, input').focus()
+        }
+      })
+
+    dropdownMenus &&
+      dropdownMenus.forEach((dropdownMenu) => {
+        dropdownMenu.addEventListener('click', toggleDropdownMenu)
+      })
+
+    setActiveMenuItem()
+
+    window.addEventListener('click', (event) => {
+      const element = event.target as Element
+      if (!element.hasAttribute('aria-haspopup') && !element.classList.contains('submenu-item')) {
+        closeAllDropdownMenus()
+      }
+    })
+  })
+</script>
+
+<style lang="scss" is:global>
+  @use '../assets/scss/base/breakpoint' as *;
+  @use '../assets/scss/base/outline' as *;
+
+  #version-dropdown {
+    > .container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+
+    .wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .wrapper {
+      > ul {
+        display: flex;
+        gap: 1.5rem;
+        list-style-type: none;
+
+        a,
+        button {
+          text-decoration: none;
+          font-size: 1.125rem;
+          line-height: 1.6875rem;
+        }
+
+        a:hover,
+        a:focus,
+        .is-active,
+        .has-version-dropdown > button:hover,
+        .has-version-dropdown > button:focus {
+          text-decoration: underline;
+          text-decoration-thickness: 1px;
+          text-decoration-style: wavy;
+          text-underline-offset: 7px;
+        }
+
+        .is-active {
+          font-weight: bold;
+        }
+      }
+    }
+
+    .has-version-dropdown {
+      position: relative;
+
+      > button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0;
+        margin-top: -1px;
+        border: none;
+        color: var(--action-color);
+
+        &:hover {
+          color: var(--action-color-state);
+
+          &::after {
+            border-color: var(--action-color-state);
+          }
+        }
+
+        &::after {
+          content: '';
+          width: 0.85rem;
+          height: 0.75em;
+          margin-top: -0.25rem;
+          border-style: solid;
+          border-width: 0.2em 0.2em 0 0;
+          border-color: var(--action-color);
+          transform: rotate(135deg);
+        }
+
+        &.show {
+          &::after {
+            margin-top: 0.25rem;
+            transform: rotate(-45deg);
+          }
+
+          ~ ul {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+          }
+        }
+      }
+
+      ul {
+        display: none;
+        position: absolute;
+        z-index: 100;
+        min-width: 260px;
+        top: 125%;
+        right: 0;
+        bottom: auto;
+        left: 0;
+        padding: 1rem;
+        background-color: var(--neutral-background);
+        border: 2px solid black;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+</style>

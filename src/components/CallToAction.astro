@@ -1,5 +1,5 @@
 ---
-const { text, url_gh, url_mr, url_cf } = Astro.props
+const { text, url_gh, url_mr, url_cf, url_wiki = "" } = Astro.props
 ---
 
 <div class="container">
@@ -9,6 +9,7 @@ const { text, url_gh, url_mr, url_cf } = Astro.props
       <a href={url_gh} class="text-center text-lg">GitHub</a>
       <a href={url_mr} class="text-center text-lg">Modrinth</a>
       <a href={url_cf} class="text-center text-lg">CurseForge</a>
+      {(url_wiki != '') ? <a href={url_wiki} class="text-center text-lg">Wiki</a> : ''}
     </div>
   </div>
 </div>
