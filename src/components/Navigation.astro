@@ -3,12 +3,17 @@ import ResponsiveToggle from './ResponsiveToggle.astro'
 import { DarkMode } from 'accessible-astro-components'
 import { Image } from 'astro:assets'
 import logo from '../assets/img/logo.png'
+import logo_lightmode from '../assets/img/logo_lightmode.png'
+
 ---
+<script>
+  
+</script>
 
 <div id="main-navigation" class="is-desktop py-8">
   <div class="container">
     <a href="/" class="flex items-center gap-2 !no-underline">
-      <Image src={logo} alt="MidnightDust Logo" width="47" height="47" />
+      <Image src={logo} class="drop-shadow-md fill-black" alt="MidnightDust Logo" width="47" height="47" />
       <span class="font-bold">MidnightDust – Mods by Motschen</span>
     </a>
     <div class="wrapper">

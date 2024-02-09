@@ -1,15 +1,20 @@
 ---
 const { text, url_gh, url_mr, url_cf, url_wiki = "" } = Astro.props
+import { Icon } from 'astro-icon/components'
 ---
 
 <div class="container">
   <div class="call-to-action mt-24 mb-32 flex flex-col items-center gap-12 rounded-xl p-12 md:p-24">
     <h2 class="text-center text-3xl md:text-5xl">{text}</h2>
-    <div class="flex-row">
-      <a href={url_gh} class="text-center text-lg">GitHub</a>
-      <a href={url_mr} class="text-center text-lg">Modrinth</a>
-      <a href={url_cf} class="text-center text-lg">CurseForge</a>
-      {(url_wiki != '') ? <a href={url_wiki} class="text-center text-lg">Wiki</a> : ''}
+    <div class="flex flex-col gap-3 min-[800px]:flex-row">
+      {(url_gh != '') ? <a href={url_gh} class="button has-icon text-center text-lg">
+        <Icon name="ion:logo-github" />GitHub</a> : ''}
+      {(url_mr != '') ? <a href={url_mr} class="button has-icon text-center text-lg">
+        <Icon name="modrinth" />Modrinth</a> : ''}
+      {(url_cf != '') ? <a href={url_cf} class="button has-icon color-tertiary text-lg">
+        <Icon name="curseforge" />CurseForge</a> : ''}
+      {(url_wiki != '') ? <a href={url_wiki} class="button has-icon color-secondary text-lg">
+        <Icon name="ion:book" />Visit the new Wiki!</a> : ''}
     </div>
   </div>
 </div>
@@ -22,7 +27,6 @@ const { text, url_gh, url_mr, url_cf, url_wiki = "" } = Astro.props
 
   .call-to-action a:not(button),
   .call-to-action a:not(button):visited {
-    display: inline-block;
     vertical-align: top;
     padding: 1rem;
     margin: 0 1rem 0 1rem;

@@ -1,9 +1,10 @@
 [
     {
+      "postId": "new-website",
       "userId": "Martin Prokoph",
-      "date": "08.02.2024",
+      "date": "09th February 2024",
       "title": "So... I have a new website now!",
-      "body": "After years of just having a lame and half broken, useless site, I proudly present my new website.\nIt is built using Astro to achieve blazing fast performance, eye candy and usefulness at the same time.",
+      "body": "I finally revamped my website, making it faster, more accessible and more useful!",
       "img": "/social-preview-image.png"
     }
 ]

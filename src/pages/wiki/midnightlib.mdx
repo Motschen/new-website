@@ -14,11 +14,8 @@ Welcome to the MidnightLib wiki. Thanks for showing interest in our library!
 This documentation aims to show you how to use the config system and the other features the library provides.  
 Use the tabs on the right side to switch between the different pages.
 
-Explore MidnightLib's features on this page!
-<a class="button has-icon color-secondary text-center text-lg items-center" href="/midnightlib">
-<Icon name="ion:bookmark-outline" />
-Get to know the features
-          </a>
+Explore MidnightLib's features on this page:
+[Get to know the features](/midnightlib)
 
 To use the library in your mods, just edit `build.gradle` and `gradle.properties` as seen below:
 ### `build.gradle`
@@ -113,10 +110,10 @@ The .json language file for your config class could look similar to this:
 ```
     
 To initialize the config you have to call `MidnightConfig.init("modid", MidnightConfigExample.class);` in your ModInitializer.  
-To get an instance of the config screen you have to call `MidnightConfig.getScreen(parent, "modid");`  
+To get an instance of the config screen you have to call `MidnightConfig.getScreen(parent, "modid");`
 
-If you don't use the whole library and therefore not the automatic ModMenu integration, the code in your ModMenu integration class would look something like this:
 ### `ModMenuInit.java`
+If you don't use the whole library and therefore not the automatic ModMenu integration, the code in your ModMenu integration class would look something like this:
 ```java 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
