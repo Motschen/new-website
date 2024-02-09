@@ -6,6 +6,7 @@ import icon from "astro-icon"
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://midnightdust.eu',
   compressHTML: true,
   integrations: [mdx(), icon(), tailwind({
     applyBaseStyles: false,
