@@ -1,19 +1,19 @@
 ---
-const { text, url_gh, url_mr, url_cf, url_wiki = "" } = Astro.props
+const { text, url_gh, url_mr, url_cf, url_wiki = "", mod = "default" } = Astro.props
 import { Icon } from 'astro-icon/components'
 ---
 
 <div class="container">
-  <div class="call-to-action mt-24 mb-32 flex flex-col items-center gap-12 rounded-xl p-12 md:p-24">
+  <div class={"call-to-action mt-24 mb-32 flex flex-col items-center gap-12 rounded-xl p-12 md:p-24 " + mod}>
     <h2 class="text-center text-3xl md:text-5xl">{text}</h2>
     <div class="flex flex-col gap-3 min-[800px]:flex-row">
-      {(url_gh != '') ? <a href={url_gh} class="button has-icon text-center text-lg">
-        <Icon name="ion:logo-github" />GitHub</a> : ''}
-      {(url_mr != '') ? <a href={url_mr} class="button has-icon text-center text-lg">
+      {(url_mr != '') ? <a href={url_mr} class={"button has-icon text-lg " + mod+"-button-primary"}>
         <Icon name="modrinth" />Modrinth</a> : ''}
-      {(url_cf != '') ? <a href={url_cf} class="button has-icon color-tertiary text-lg">
+      {(url_cf != '') ? <a href={url_cf} class={"button has-icon text-lg " + mod+"-button-primary"}>
         <Icon name="curseforge" />CurseForge</a> : ''}
-      {(url_wiki != '') ? <a href={url_wiki} class="button has-icon color-secondary text-lg">
+      {(url_gh != '') ? <a href={url_gh} class={"button has-icon text-lg " + mod+"-button-primary"}>
+        <Icon name="ion:logo-github" />GitHub</a> : ''}
+      {(url_wiki != '') ? <a href={url_wiki} class={"button has-icon color-secondary text-lg " + mod+"-button-secondary"}>
         <Icon name="ion:book" />Visit the new Wiki!</a> : ''}
     </div>
   </div>
@@ -23,6 +23,16 @@ import { Icon } from 'astro-icon/components'
   .call-to-action {
     color: var(--neutral-900);
     background-image: linear-gradient(40deg, var(--primary-100), var(--secondary-200));
+  }
+  .midnightcontrols {
+    color: var(--neutral-100);
+    background-image: linear-gradient(40deg, #E302A4, #9400C6);
+  }
+  .midnightcontrols-button-primary {
+    background-color: #ff6fff;
+  }
+  .midnightcontrols-button-secondary {
+    background-color: #b356ff;
   }
 
   .call-to-action a:not(button),

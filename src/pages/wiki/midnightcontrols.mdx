@@ -1,0 +1,61 @@
+---
+layout: ../../layouts/MarkdownLayout.astro
+title: MidnightControls Wiki
+---
+
+import { Icon } from 'astro-icon/components'
+import { Notification } from 'accessible-astro-components'
+
+# MidnightControls Wiki
+
+Welcome to the MidnightControls wiki.  
+This documentation aims to show you how to correctly configure the mod for your use case.  
+
+Explore MidnightControls' features on this page:
+[Get to know the features](/midnightcontrols)
+
+### Opening the settings
+Configure everything about the mod in the settings screen.
+To open it, simply open the default Minecraft options screen, click on the `Controls` section, and click on the controller button.  
+<center><img alt="A visual guide for finding the options screen" src="/midnightcontrols/open-settings.png" width="500"></img></center>
+<p class="text-center italic">Visual guide for finding the options screen</p>  
+
+### Creating and using custom controller mappings 
+Orange controller names indicate a missing controller mapping.  
+Download [GamepadTool](https://generalarcade.com/gamepadtool/), create and copy a mapping.
+Alternatively, you can use [AntiMicroX](https://github.com/AntiMicroX/antimicroX) to create the mappings, in case the Gamepad Tool is not working for you.
+
+<div class="flex flex-col gap-3 min-[1100px]:flex-row items-center">
+  <img alt="Screenshot of GamepadTool" src="/midnightcontrols/gamepad-tool.png" width="385" class="place-self-center"></img>
+  <img alt="Screenshot of AntiMicroX" src="/midnightcontrols/antimicrox.png" width="800" class="place-self-center"></img>
+</div>
+<p class="text-center italic">Screenshots of Gamepad Tool and AntiMicroX</p>  
+
+Once you've obtained the mapping, go to MidnightControls' Mappings File Editor and paste the string.
+<center>![Mapping Editor Screenshot](/midnightcontrols/mapping-editor.png)</center>
+<p class="text-center italic">MidnightControls' mappings file editor</p>  
+
+If that works, you might as well consider submitting the mapping by opening a PR in this GitHub repository: https://github.com/gabomdq/SDL_GameControllerDB  
+That will make sure other people using the same controller as you don't have to manually create a mapping anymore. 
+
+### Setting up splitscreen
+You need to setup multiple different instances of Minecraft to be able to play in splitscreen.  
+Make sure your PC can actually handle that; if so, install a launcher that allows you to run multiple instances of Minecraft in parallel (I recommend Prism Launcher).  
+In there, create a profile for the first controller, and install MidnightControls.  
+
+Start the game and open the MidnightControls settings screen.   
+In General Options, turn on <strong>`Virtual Mouse`</strong>
+<img alt="Screenshot of Virtual Mouse Option" src="/midnightcontrols/virtual-mouse.png" width="500"></img>
+In Controller Options, activate <strong>`Unfocused Input`</strong>
+<img alt="Screenshot of Unfocused Input Option" src="/midnightcontrols/unfocused-input.png" width="500"></img>
+Now, open a Minecraft world and press F3 + P to disable Minecraft pausing on lost focus.
+<img alt="Screenshot showing how to disable 'Pause on lost focus' in Minecraft" src="/midnightcontrols/pause-lost-focus.png" width="500"></img>
+
+<Notification type="info">
+  <Icon name="ion:information-circle-outline" />
+  <p>
+    <strong>Info:</strong> Splitscreen support in one single instance wouldn't be feasible without rewriting a significant portion of the Minecraft codebase.  
+    Minecraft Java is made only with one single local player in mind, so this would simply be a pain to update and break many mods.  
+    The only possibility for single-instance splitscreen is if Mojang decided to implement it themselves.
+  </p>
+</Notification>  
