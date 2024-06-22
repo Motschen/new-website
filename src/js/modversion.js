@@ -25,7 +25,7 @@ var versionMap = await Object.keys(finishedArray).reduce(function(map, value) {
 }, {});
 versionList = await Object.keys(versionMap).sort().reverse();
 
-export var selectedVersion = "1.20.4";
+export var selectedVersion = "1.21";
 
 var resultingVersionID = await finishedArray[selectedLoader + "+" + selectedVersion];
 export var resultingVersion = "Could not find the latest version!";
