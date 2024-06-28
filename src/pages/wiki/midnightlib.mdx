@@ -6,7 +6,7 @@ title: MidnightLib Wiki
 import VersionDropdown from '../../components/VersionDropdown.astro'
 import { Icon } from 'astro-icon/components'
 import { Notification } from 'accessible-astro-components'
-import { resultingVersion } from '../../js/modversion.js'
+import { getResultingVersion } from '../../js/modversion.js'
 
 # MidnightLib Wiki
 
@@ -33,7 +33,7 @@ dependencies {
 ```
 ### `gradle.properties`
 <VersionDropdown></VersionDropdown>
-{<pre><code className="language-java">midnightlib_version = {resultingVersion}</code></pre>}
+{<pre><code className="language-java">midnightlib_version = {getResultingVersion()}</code></pre>}
 
 <Notification type="info">
   <Icon name="ion:information-circle-outline" />
@@ -120,3 +120,12 @@ If you don't use the whole library and therefore not the automatic ModMenu integ
       return parent -> MidnightConfig.getScreen(parent, "modid");
     }`
 ```
+
+<script>
+        import Alpine from "alpinejs";
+        
+        document.addEventListener('alpine:init', () => {
+            //Alpine.data('versionSelection', () => ({
+            //}))
+        })
+</script>

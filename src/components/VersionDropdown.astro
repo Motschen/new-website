@@ -1,203 +1,53 @@
 ---
-import { loaderList, versionList, selectedLoader, selectedVersion } from '../js/modversion.js'
+import { loaderList, versionList, selectedLoader, selectedVersion, getResultingVersion } from '../js/modversion.js'
 ---
 
 <div id="version-dropdown">
   <div class="container">
     <div class="wrapper">
-        <ul class="version-dropdowns">
-          <li class="menu-item has-version-dropdown">
-            <button aria-haspopup="true" aria-expanded="false">{selectedLoader.charAt(0).toUpperCase() + selectedLoader.slice(1)}</button>
-            <ul class="dropdown-menu"> 
-              { loaderList.map((loader) =>
-                <li class="submenu-item">
-                  <a href="javascript:;">{loader.charAt(0).toUpperCase() + loader.slice(1)}</a>
-                </li>
-              )}
-            </ul>
-          </li>
-          <li class="menu-item has-version-dropdown">
-            <button aria-haspopup="true" aria-expanded="false">{selectedVersion}</button>
-            <ul class="dropdown-menu">
-              { versionList.map((version) =>
-                <li class="submenu-item">
-                  <a href="javascript:;">{version}</a>
-                </li>
-              )}
-            </ul>
-          </li>
-        </ul>
+      <label for="loader-selector" class="sr-only">Select the Modloader</label>
+      <select
+        x-data="{
+            loader: localStorage.selectedLoader || 'fabric',
+            switchLoader: function (newValue) {
+              localStorage.selectedLoader = newValue;
+              console.log('New loader: ' + localStorage.selectedLoader);
+            },
+          }"
+        name="loader-selector"
+        id="loader-selector"
+        class="appearance-none cursor-pointer rounded-md pl-3 pr-2 py-1.5 dark:bg-stone-950 dark:text-white focus-visible:outline-none"
+        x-model="loader"
+        aria-label="Choose the Modloader"
+        @change="switchLoader($event.target.value)">
+        { loaderList.map((loader) =>
+          <option value={loader}>{loader.charAt(0).toUpperCase() + loader.slice(1)}</option>
+        )}
+      </select>
+      <label for="version-selector" class="sr-only">Select the Version</label>
+      <select
+        x-data="{
+            version: localStorage.selectedVersion || '1.21',
+            switchVersion: function (newValue) {
+              localStorage.selectedVersion = newValue;
+              console.log('New version: ' + localStorage.selectedVersion);
+              console.log(getResultingVersion());
+            },
+          }"
+        name="version-selector"
+        id="version-selector"
+        class="appearance-none cursor-pointer rounded-md pl-3 pr-2 py-1.5 dark:bg-stone-950 dark:text-white focus-visible:outline-none"
+        x-model="version"
+        aria-label="Choose the Version"
+        @change="switchVersion($event.target.value)">
+        { versionList.map((version) =>
+          <option value={version}>{version}</option>
+        )}
+      </select>
+      <label for="version-selector" x-text="getResultingVersion()">Resulting Version</label>
     </div>
   </div>
 </div>
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    // variables
-    const mainElement = document.querySelector('#version-dropdown')
-    const mainMenu = mainElement.querySelector('ul')
-    const dropdownMenus = [...document.querySelectorAll('.has-version-dropdown button')]
-
-    // functions
-    const setActiveMenuItem = () => {
-      const mobileDesktopMenus = mainElement.querySelectorAll('div > ul')
-      const currenPathname = window.location.pathname
-
-      mobileDesktopMenus.forEach((menu) => {
-        const menuItems = [...menu.querySelectorAll('a:not([rel*="external"])')] as HTMLAnchorElement[]
-
-        menuItems.forEach((menuItem) => {
-          if (currenPathname.includes(menuItem.pathname.replaceAll('/', ''))) {
-            menuItem.classList.add('is-active')
-            menuItem.setAttribute('aria-current', 'page')
-          }
-        })
-      })
-    }
-
-    const isOutOfViewport = (element) => {
-      const elementBounds = element.getBoundingClientRect()
-      return elementBounds.right > (window.innerWidth || document.documentElement.clientWidth)
-    }
-
-    const openDropdownMenu = (dropdownMenu) => {
-      const dropdownList = dropdownMenu.parentNode.querySelector('ul')
-
-      dropdownMenu.classList.add('show')
-      dropdownMenu.setAttribute('aria-expanded', 'true')
-
-      if (isOutOfViewport(dropdownList)) {
-        dropdownList.style.left = 'auto'
-      }
-    }
-
-    const closeDropdownMenu = (dropdownMenu) => {
-      dropdownMenu.classList.remove('show')
-      dropdownMenu.setAttribute('aria-expanded', 'false')
-    }
-
-    const closeAllDropdownMenus = () => {
-      for (let i = 0; i < dropdownMenus.length; i++) {
-        closeDropdownMenu(dropdownMenus[i])
-      }
-    }
-
-    const toggleDropdownMenu = (event) => {
-      if (event.target.getAttribute('aria-expanded') === 'false') {
-        closeAllDropdownMenus()
-        openDropdownMenu(event.target)
-      } else {
-        closeDropdownMenu(event.target)
-      }
-    }
-
-    // execution
-    mainMenu &&
-      mainMenu.addEventListener('keydown', (event) => {
-        const element = event.target as Element
-        const currentMenuItem = element.closest('li')
-        const menuItems = [...mainMenu.querySelectorAll('.menu-item')]
-        const currentDropdownMenu = element.closest('.has-dropdown button')
-        const currentDropdownMenuItem = element.closest('.has-version-dropdown li')
-        const currentIndex = menuItems.findIndex((item) => item === currentMenuItem)
-
-        const key = event.key
-        let targetItem
-
-        if (key === 'ArrowRight') {
-          if (menuItems.indexOf(currentMenuItem) === menuItems.length - 1) {
-            targetItem = menuItems[0]
-          } else {
-            targetItem = menuItems[currentIndex + 1]
-          }
-        }
-
-        if (key === 'ArrowLeft') {
-          if (menuItems.indexOf(currentMenuItem) === 0) {
-            targetItem = menuItems[menuItems.length - 1]
-          } else {
-            targetItem = menuItems[currentIndex - 1]
-          }
-        }
-
-        if (key === 'Escape') {
-          targetItem = menuItems[0]
-        }
-
-        if (currentDropdownMenu) {
-          const firstDropdownItem = currentDropdownMenu.nextElementSibling.querySelector('li')
-
-          if (key === 'ArrowDown') {
-            event.preventDefault()
-            openDropdownMenu(currentDropdownMenu)
-            targetItem = firstDropdownItem
-          }
-
-          if (key === 'Escape') {
-            closeDropdownMenu(currentDropdownMenu)
-          }
-        }
-
-        if (currentDropdownMenuItem) {
-          const currentDropdownList = currentDropdownMenuItem.parentNode
-          const dropdownMenuItems = [...currentDropdownList.querySelectorAll('li')]
-          const currentIndex = dropdownMenuItems.findIndex((item) => item === currentDropdownMenuItem)
-
-          if (key === 'ArrowDown') {
-            event.preventDefault()
-
-            if (dropdownMenuItems.indexOf(currentDropdownMenuItem as HTMLLIElement) === dropdownMenuItems.length - 1) {
-              targetItem = dropdownMenuItems[0]
-            } else {
-              targetItem = dropdownMenuItems[currentIndex + 1]
-            }
-          }
-
-          if (key === 'ArrowUp') {
-            event.preventDefault()
-
-            if (dropdownMenuItems.indexOf(currentDropdownMenuItem as HTMLLIElement) === 0) {
-              targetItem = dropdownMenuItems[dropdownMenuItems.length - 1]
-            } else {
-              targetItem = dropdownMenuItems[currentIndex - 1]
-            }
-          }
-
-          if (key === 'Escape') {
-            const currentDropdownMenu = (currentDropdownList as Element).previousElementSibling
-            targetItem = currentDropdownMenu.parentNode
-            closeAllDropdownMenus()
-          }
-
-          if (key === 'Tab') {
-            const currentDropdownMenu = (currentDropdownList as Element).previousElementSibling
-
-            if (dropdownMenuItems.indexOf(currentDropdownMenuItem as HTMLLIElement) === dropdownMenuItems.length - 1) {
-              closeDropdownMenu(currentDropdownMenu)
-            }
-          }
-        }
-
-        if (targetItem) {
-          targetItem.querySelector('a, button, input').focus()
-        }
-      })
-
-    dropdownMenus &&
-      dropdownMenus.forEach((dropdownMenu) => {
-        dropdownMenu.addEventListener('click', toggleDropdownMenu)
-      })
-
-    setActiveMenuItem()
-
-    window.addEventListener('click', (event) => {
-      const element = event.target as Element
-      if (!element.hasAttribute('aria-haspopup') && !element.classList.contains('submenu-item')) {
-        closeAllDropdownMenus()
-      }
-    })
-  })
-</script>
 
 <style lang="scss" is:global>
   @use '../assets/scss/base/breakpoint' as *;

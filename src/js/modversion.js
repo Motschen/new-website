@@ -27,7 +27,19 @@ versionList = await Object.keys(versionMap).sort().reverse();
 
 export var selectedVersion = "1.21";
 
-var resultingVersionID = await finishedArray[selectedLoader + "+" + selectedVersion];
-export var resultingVersion = "Could not find the latest version!";
-resultingVersion = modInfo.find((info) => info.id == resultingVersionID).version_number;
-{console.log(resultingVersion)}
+
+export function setLoaderVersion(version) {
+  selectedLoader = version;
+}
+export function setGameVersion(version) {
+  selectedVersion = version;
+}
+export function getResultingVersion() {
+  var resultingVersionID = finishedArray[selectedLoader + "+" + selectedVersion];
+  var resultingVersion = "Not available";
+  if (selectedLoader != "forge") resultingVersion += " (yet)"
+  try {
+    resultingVersion = modInfo.find((info) => info.id == resultingVersionID).version_number;
+  } catch {}
+  return resultingVersion;
+}
