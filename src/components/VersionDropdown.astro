@@ -27,11 +27,11 @@ import { loaderList, versionList, selectedLoader, selectedVersion, getResultingV
       <label for="version-selector" class="sr-only">Select the Version</label>
       <select
         x-data="{
-            version: localStorage.selectedVersion || '1.21',
+            version: localStorage.selectedVersion || '1.21.1',
             switchVersion: function (newValue) {
               localStorage.selectedVersion = newValue;
               console.log('New version: ' + localStorage.selectedVersion);
-              console.log(getResultingVersion());
+              console.log(getResultingVersion);
             },
           }"
         name="version-selector"
@@ -44,7 +44,7 @@ import { loaderList, versionList, selectedLoader, selectedVersion, getResultingV
           <option value={version}>{version}</option>
         )}
       </select>
-      <label for="version-selector" x-text="getResultingVersion()">Resulting Version</label>
+      <label for="version-selector" x-text="">{}</label>
     </div>
   </div>
 </div>
