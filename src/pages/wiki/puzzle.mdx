@@ -1,0 +1,96 @@
+---
+layout: ../../layouts/MarkdownLayout.astro
+title: Puzzle Wiki
+---
+
+import { Icon } from 'astro-icon/components'
+import { Notification } from 'accessible-astro-components'
+
+# Puzzle Wiki
+
+Welcome to the Puzzle wiki.  
+This documentation will guide you on using our resourcepack-features.  
+
+## Customizable Splashscreen
+
+<Notification type="info">
+  <Icon name="ion:information-circle-outline" />
+  <p>
+    <strong>[Download](https://github.com/PuzzleMC/Puzzle/raw/1.21/Puzzle_Splashscreen_Template.zip)</strong> the template pack to get started quickly.
+  </p>
+</Notification>  
+
+### Changing the Mojang logo
+A classic. Whether you're looking for custom branding for your modpack or just want a sweet kitten on your loading screen,
+with Puzzle, the sky is the limit.
+Changing the logo is actually pretty easy:
+- Modify the example logo to suit your needs. I recommend editing the wide template and splitting it afterwards.
+- Place your custom logo in your resourcepack under `assets/minecraft/gui/title/mojangstudios.png`
+- If the logo does not look quite right on the splashscreen, follow the next step
+<center><img alt="The example Puzzle logo on a red background" src="/puzzle/custom-logo.webp" width="650"></img></center>
+<p class="text-center italic">Already lookin' quite nice, ain't it?</p>  
+
+### Using custom blending
+Blending is the technique used to create the smooth fading-out effect after loading has finished.  
+Puzzle lets you define custom blending modes that might fit your logo better than the one used for the vanilla white mojang logo.  
+It can be defined in the `assets/minecraft/optifine/color.properties` file.  
+
+```properties
+# Define a custom blend mode
+# The fields src, dst, srcA and dstA can be one of: 
+#   ZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, 
+#   SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA, SRC_ALPHA_SATURATE
+screen.loading.blend=<src dst srcA dstA>
+# We recommend this one in most cases: 
+screen.loading.blend=SRC_ALPHA ONE_MINUS_SRC_ALPHA ONE ZERO
+``` 
+```properties
+# You can also just disable blending altogether (though it doesn't look good)
+screen.loading.blend=off
+```
+
+### Entering the world of color
+The world would be a sad place without colors.  
+That's why Puzzle allows you to customize them to your heart's content.  
+Custom colors can be defined in the `assets/minecraft/optifine/color.properties` file.
+
+```properties
+# The background color
+screen.loading=1e1e2e
+
+# Color of the animated progress bar
+screen.loading.progress=f38ba8
+# Color of the loading bar outline
+screen.loading.outline=cdd6f4
+# The background color of the loading bar.
+# Remove this if you want it to be transparent
+screen.loading.bar=313244
+```
+<Notification type="default">
+  <Icon name="ion:information-circle-outline" />
+  <p>
+    <strong>Info:</strong> Colors have to be defined using hex color codes.
+    You can use websites like <strong>[this](https://redketchup.io/color-picker)</strong> one to find nice hex color codes.  
+    The example colors are based on the <strong>[Catppuccin Mocha](https://github.com/catppuccin/catppuccin)</strong> color pallette.
+  </p>
+</Notification> 
+
+<center><img alt="The Puzzle logo on a dark background with pastel colors" src="/puzzle/custom-colors.webp" width="650"></img></center>
+<p class="text-center italic">Dark mode! Finally, my eyes can rest.</p>  
+
+### Adding a custom background
+Looking to show off your Minecraft world or some nice art you drew?  
+Well, I have a feeling you might quite like this one.  
+Unlike OptiFine, Puzzle allows you to add a custom background to the splashscreen.  
+To do so, simply place your custom background at `assets/minecraft/puzzle/splash_background.png`
+<center><img alt="The Puzzle logo in front of an image of a sunset" src="/puzzle/custom-background.webp" width="650"></img></center>
+<p class="text-center italic">The sky is the limit! <br>Image source: [Unsplash](https://unsplash.com/photos/birds-flying-near-clouds-MF9Wy1NA55I)</br></p>  
+
+<Notification type="success">
+  <Icon name="ion:information-circle-outline" />
+  <p>
+    <strong>Pro tip:</strong> Use <strong>[ImageMagick](https://imagemagick.org/script/command-line-processing.php)</strong> to quickly convert and resize images. Once you've learned how to use it, you will love it.  
+    I used this single command to convert the example image from JPG to PNG and compress it from 39MB (8K PNG) to just 1.8MB (HD PNG):  
+    `magick splash_background.jpg -resize 12.5% splash_background.png`
+  </p>
+</Notification>  
