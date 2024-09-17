@@ -28,7 +28,7 @@ repositories {
 }
 dependencies {  
   [... other dependencies ...]  
-  modImplementation include "maven.modrinth:midnightlib:${project.midnightlib_version}"  
+  modImplementation include ("maven.modrinth:midnightlib:${project.midnightlib_version}")  
 }
 ```
 ### `gradle.properties`
@@ -152,17 +152,27 @@ The .json language file for your config class could look similar to this:
 	"modid.midnightconfig.category.files": "Files"
 }
 ```
-    
-To initialize the config you have to call `MidnightConfig.init("modid", MidnightConfigExample.class);` in your ModInitializer.  
-To get an instance of the config screen you have to call `MidnightConfig.getScreen(parent, "modid");`
+
+### `YourModInitializer.java`
+To initialize the config you **have** to call:
+```java 
+MidnightConfig.init("modid", MidnightConfigExample.class);
+```
+in your ModInitializer.  
+If you want it to show up properly in ModMenu, be sure to do so in the main initializer (instead of the client/dedicated server one).  
+
+To get an instance of the config screen you can call:
+```java 
+MidnightConfig.getScreen(parent, "modid");
+```
 
 ### `ModMenuInit.java`
 If you don't use the whole library and therefore not the automatic ModMenu integration, the code in your ModMenu integration class would look something like this:
 ```java 
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-      return parent -> MidnightConfig.getScreen(parent, "modid");
-    }`
+@Override
+public ConfigScreenFactory<?> getModConfigScreenFactory() {
+  return parent -> MidnightConfig.getScreen(parent, "modid");
+}`
 ```
 
 <script>
