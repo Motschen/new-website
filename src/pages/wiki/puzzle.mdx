@@ -3,6 +3,7 @@ layout: ../../layouts/MarkdownLayout.astro
 title: Puzzle Wiki
 ---
 
+import ColorPicker from '../../components/ColorPicker.astro'
 import { Icon } from 'astro-icon/components'
 import { Notification } from 'accessible-astro-components'
 
@@ -51,7 +52,7 @@ screen.loading.blend=off
 
 ### Entering the world of color
 The world would be a sad place without colors.  
-That's why Puzzle allows you to customize them to your heart's content.  
+That's why Puzzle allows you to customize them to your heart's content!  
 Custom colors can be defined in the `assets/minecraft/optifine/color.properties` file.
 
 ```properties
@@ -69,11 +70,12 @@ screen.loading.bar=313244
 <Notification type="default">
   <Icon name="ion:information-circle-outline" />
   <p>
-    <strong>Info:</strong> Colors have to be defined using hex color codes.
-    You can use websites like <strong>[this](https://redketchup.io/color-picker)</strong> one to find nice hex color codes.  
+    <strong>Info:</strong> Colors have to be defined using hex color codes (without the #).  
+    You can use the color picker below to find the perfect color.  
     The example colors are based on the <strong>[Catppuccin Mocha](https://github.com/catppuccin/catppuccin)</strong> color pallette.
   </p>
 </Notification> 
+<ColorPicker/>
 
 <center><img alt="The Puzzle logo on a dark background with pastel colors" src="/puzzle/custom-colors.webp" width="650"></img></center>
 <p class="text-center italic">Dark mode! Finally, my eyes can rest.</p>  

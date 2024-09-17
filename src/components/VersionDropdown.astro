@@ -1,161 +1,68 @@
 ---
-import { loaderList, versionList, selectedLoader, selectedVersion, getResultingVersion } from '../js/modversion.js'
+import { Icon } from 'astro-icon/components'
+import { loaderList, versionList} from '../js/modversion.js'
 ---
 
 <div id="version-dropdown">
-  <div class="container">
+  <div class="">
     <div class="wrapper">
       <label for="loader-selector" class="sr-only">Select the Modloader</label>
       <select
-        x-data="{
-            loader: localStorage.selectedLoader || 'fabric',
-            switchLoader: function (newValue) {
-              localStorage.selectedLoader = newValue;
-              console.log('New loader: ' + localStorage.selectedLoader);
-            },
-          }"
         name="loader-selector"
         id="loader-selector"
-        class="appearance-none cursor-pointer rounded-md pl-3 pr-2 py-1.5 dark:bg-stone-950 dark:text-white focus-visible:outline-none"
-        x-model="loader"
-        aria-label="Choose the Modloader"
-        @change="switchLoader($event.target.value)">
+        class="selector cursor-pointer rounded-md pl-3 pr-2 py-1.5 border-2 dark:border-green-300 dark:bg-neutral-800 dark:text-white focus-visible:outline-none"
+        aria-label="Choose the Modloader">
         { loaderList.map((loader) =>
-          <option value={loader}>{loader.charAt(0).toUpperCase() + loader.slice(1)}</option>
+          <option value={loader}>{loader.charAt(0).toUpperCase() + loader.replace("neoforge", "NeoForge").slice(1)}</option>
         )}
       </select>
       <label for="version-selector" class="sr-only">Select the Version</label>
       <select
-        x-data="{
-            version: localStorage.selectedVersion || '1.21.1',
-            switchVersion: function (newValue) {
-              localStorage.selectedVersion = newValue;
-              console.log('New version: ' + localStorage.selectedVersion);
-              console.log(getResultingVersion);
-            },
-          }"
         name="version-selector"
         id="version-selector"
-        class="appearance-none cursor-pointer rounded-md pl-3 pr-2 py-1.5 dark:bg-stone-950 dark:text-white focus-visible:outline-none"
-        x-model="version"
-        aria-label="Choose the Version"
-        @change="switchVersion($event.target.value)">
+        class="selector cursor-pointer rounded-md ml-2 pl-3 pr-2 py-1.5 border-2 dark:border-green-300 dark:bg-neutral-800 dark:text-white focus-visible:outline-none"
+        aria-label="Choose the Version">
         { versionList.map((version) =>
           <option value={version}>{version}</option>
         )}
+        <Icon name="ion:copy-outline"></Icon>
       </select>
-      <label for="version-selector" x-text="">{}</label>
     </div>
   </div>
 </div>
 
+<script>
+import { getResultingVersion, setGameVersion, setLoaderVersion } from "../js/modversion";
+  // Get the gradle.properties code block
+  const versionLabel = document.getElementById("midnightlib-version");
+  // Get the 2 selectors defined above
+  const loaderSelector = document.getElementById("loader-selector");
+  const versionSelector = document.getElementById("version-selector");
+
+  loaderSelector?.addEventListener("change", async (e) => {
+    const {
+      target: { value }, // Returns the current loader string
+    } = e;
+
+    setLoaderVersion(value);
+    if (versionLabel) versionLabel.innerText = `midnightlib_version = `+getResultingVersion();
+  });
+  versionSelector?.addEventListener("change", async (e) => {
+    const {
+      target: { value }, // Returns the current version string
+    } = e;
+
+    setGameVersion(value);
+    if (versionLabel) versionLabel.innerText = `midnightlib_version = `+getResultingVersion();
+  });
+
+</script>
+
 <style lang="scss" is:global>
-  @use '../assets/scss/base/breakpoint' as *;
-  @use '../assets/scss/base/outline' as *;
-
-  #version-dropdown {
-    > .container {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-
-    .wrapper {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .wrapper {
-      > ul {
-        display: flex;
-        gap: 1.5rem;
-        list-style-type: none;
-
-        a,
-        button {
-          text-decoration: none;
-          font-size: 1.125rem;
-          line-height: 1.6875rem;
-        }
-
-        a:hover,
-        a:focus,
-        .is-active,
-        .has-version-dropdown > button:hover,
-        .has-version-dropdown > button:focus {
-          text-decoration: underline;
-          text-decoration-thickness: 1px;
-          text-decoration-style: wavy;
-          text-underline-offset: 7px;
-        }
-
-        .is-active {
-          font-weight: bold;
-        }
-      }
-    }
-
-    .has-version-dropdown {
-      position: relative;
-
-      > button {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0;
-        margin-top: -1px;
-        border: none;
-        color: var(--action-color);
-
-        &:hover {
-          color: var(--action-color-state);
-
-          &::after {
-            border-color: var(--action-color-state);
-          }
-        }
-
-        &::after {
-          content: '';
-          width: 0.85rem;
-          height: 0.75em;
-          margin-top: -0.25rem;
-          border-style: solid;
-          border-width: 0.2em 0.2em 0 0;
-          border-color: var(--action-color);
-          transform: rotate(135deg);
-        }
-
-        &.show {
-          &::after {
-            margin-top: 0.25rem;
-            transform: rotate(-45deg);
-          }
-
-          ~ ul {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-          }
-        }
-      }
-
-      ul {
-        display: none;
-        position: absolute;
-        z-index: 100;
-        min-width: 260px;
-        top: 125%;
-        right: 0;
-        bottom: auto;
-        left: 0;
-        padding: 1rem;
-        background-color: var(--neutral-background);
-        border: 2px solid black;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
-    }
+  #loader-selector::after {
+    content: "v";
+  }
+  .selector:is(.darkmode *) {
+    background-color: var(--dark-100);
   }
 </style>
