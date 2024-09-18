@@ -4,7 +4,7 @@ import { SkipLinks } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 ---
 
-<header>
+<header class="sticky top-0 z-50 backdrop-blur-md">
   <SkipLinks />
   <Navigation>
     <li class="menu-item">
@@ -58,6 +58,8 @@ import { Icon } from 'astro-icon/components'
   @use '../assets/scss/base/outline' as *;
 
   header {
+    background-color: rgb(255, 255, 255, 0.75);
+
     .type-icon a {
       display: block;
 
@@ -77,5 +79,8 @@ import { Icon } from 'astro-icon/components'
         }
       }
     }
+  }
+  header:is(.darkmode *) {
+    background-color: rgba(24, 24, 37, 0.75);
   }
 </style>
