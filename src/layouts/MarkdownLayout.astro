@@ -86,5 +86,11 @@ const { frontmatter } = Astro.props
     background-color: var(--secondary-500);
     box-shadow: -1px 1px 8px var(--secondary-500);
   }
+  .notification:is(.darkmode *) a:not(.button) {
+    color: var(--secondary-400);
+  }
+  .notification:is(.darkmode *) a:not(.button):visited {
+    color: var(--secondary-500);
+  }
 
 </style>

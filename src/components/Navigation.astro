@@ -4,6 +4,7 @@ import { DarkMode } from 'accessible-astro-components'
 import { Image } from 'astro:assets'
 import logo from '../assets/img/logo.png'
 import logo_lightmode from '../assets/img/logo_lightmode.png'
+import { Icon } from 'astro-icon/components'
 
 ---
 <script>
@@ -13,7 +14,8 @@ import logo_lightmode from '../assets/img/logo_lightmode.png'
 <div id="main-navigation" class="is-desktop py-8">
   <div class="container">
     <a href="/" class="flex items-center gap-2 !no-underline">
-      <Image src={logo} class="drop-shadow-md fill-black" alt="MidnightDust Logo" width="47" height="47" />
+      <!-- <Image src={logo} class="drop-shadow-md fill-black" alt="MidnightDust Logo" width="47" height="47" /> -->
+      <Icon name="ion:sparkles-outline" width="24" height="24" />
       <span class="font-bold">MidnightDust – Mods by Motschen</span>
     </a>
     <div class="wrapper">
@@ -295,8 +297,8 @@ import logo_lightmode from '../assets/img/logo_lightmode.png'
         .has-dropdown > button:hover,
         .has-dropdown > button:focus {
           text-decoration: underline;
-          text-decoration-thickness: 1px;
-          text-decoration-style: wavy;
+          text-decoration-thickness: 2px;
+          text-decoration-style: solid;
           text-underline-offset: 7px;
         }
 
