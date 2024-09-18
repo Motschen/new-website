@@ -138,12 +138,5 @@ body {
         font-size: 1rem;
       }
     }
-
-    line-height: 1.5rem;
-
-    @include breakpoint(medium) {
-      font-size: 1.125rem;
-      line-height: 1.6875rem;
-    }
   }
 }
