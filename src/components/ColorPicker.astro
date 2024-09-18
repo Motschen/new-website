@@ -5,67 +5,78 @@ interface Props {
 const { includeHashtag } = Astro.props
 import { Icon } from 'astro-icon/components'
 ---
-
-<section class="my-6">
-  <div class="">
-    <p class="text-lg">Select a color below to get the hex code:</p>
-    <div class="flex">
-      <fieldset>
-        <input
-          type="color"
-          id="color-select"
-          class="h-16 w-48 hover:cursor-pointer rounded-xl border-neutral-900 dark:border-neutral-100 border-4"
-        />
-      </fieldset>
-      <button
-        id="copy-button"
-        class="button has-icon color-secondary ml-3 rounded-md text-white hover:cursor-pointer appearance-none h-16">
-        <Icon id="copy-icon" name="ion:copy-outline" />
-        <Icon id="success-icon" name="ion:checkmark-outline" class="hidden" />
-        <p id="color-label">{includeHashtag ? '#' : ''}000000</p>
+<color-picker>
+  <section class="my-6">
+    <div class="">
+      <p class="text-lg">Select a color below to get the hex code:</p>
+      <div class="flex">
+        <fieldset>
+          <input
+            type="color"
+            id="color-select"
+            class="h-16 w-48 hover:cursor-pointer rounded-xl border-neutral-900 dark:border-neutral-100 border-4"
+          />
+        </fieldset>
+        <button
+          id="copy-button"
+          class="button has-icon color-secondary ml-3 rounded-md text-white hover:cursor-pointer appearance-none h-16">
+          <Icon id="copy-icon" name="ion:copy-outline" />
+          <Icon id="success-icon" name="ion:checkmark-outline" class="hidden" />
+          <p id="color-label">{includeHashtag ? '#' : ''}000000</p>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</color-picker>
 
 <script>
-  // Get the 2 elements from above
-  const colorLabel = document.getElementById("color-label");
-  const colorSelect = document.getElementById("color-select");
-  const copyButton = document.getElementById("copy-button");
+  // Define the behaviour for our new type of HTML element.
+  class ColorPicker extends HTMLElement {
+    connectedCallback() {
+      // Get the 2 elements from above
+      const colorLabel = document.getElementById("color-label");
+      const colorSelect = document.getElementById("color-select");
+      const copyButton = document.getElementById("copy-button");
 
-  const copyIcon = document.getElementById("copy-icon");
-  const successIcon = document.getElementById("success-icon");
+      const copyIcon = document.getElementById("copy-icon");
+      const successIcon = document.getElementById("success-icon");
 
-  colorSelect?.addEventListener("change", async (e) => {
-    const {
-      target: { value }, // Returns the chosen color (already in hex format :D)
-    } = e;
-    if (colorLabel) colorLabel.innerText = colorLabel.innerText.startsWith('#') ? value : value.replace('#', '');
-  });
+      colorSelect?.addEventListener("change", async (e) => {
+        const {
+          target: { value }, // Returns the chosen color (already in hex format :D)
+        } = e;
+        if (colorLabel) colorLabel.innerText = colorLabel.innerText.startsWith('#') ? value : value.replace('#', '');
+      });
 
-  // Add event listener to copy the color to the clipboard
-  if (colorLabel) copyButton?.addEventListener('click', () => copyString(colorLabel.innerText, copyButton));
-  
+      // Add event listener to copy the color to the clipboard
+      if (colorLabel) copyButton?.addEventListener('click', () => copyString(colorLabel.innerText, copyButton));
 
-  async function copyString(text: string, button: HTMLElement) {
-    await navigator.clipboard.writeText(text);
+      async function copyString(text: string, button: HTMLElement) {
+        await navigator.clipboard.writeText(text);
 
-    // visual feedback that task is completed
-    if (button) {
-      button.style.backgroundColor = "#"+text.replace('#', '');
-      button.style.borderColor = "#"+text.replace('#', '');
-    }
-    if (copyIcon) copyIcon.style.display = 'none';
-    if (successIcon) successIcon.style.display = 'initial';
+        // visual feedback that task is completed
+        if (button) {
+          button.style.backgroundColor = "#"+text.replace('#', '');
+          button.style.borderColor = "#"+text.replace('#', '');
+        }
+        if (copyIcon) copyIcon.style.display = 'none';
+        if (successIcon) successIcon.style.display = 'initial';
 
-    setTimeout(() => {
-      if (button) {
-        button.style.backgroundColor = 'var(--secondary-100)';
-        button.style.borderColor = 'var(--secondary-100)';
+        setTimeout(() => {
+          if (button) {
+            button.style.backgroundColor = 'var(--secondary-100)';
+            button.style.borderColor = 'var(--secondary-100)';
+          }
+          if (copyIcon) copyIcon.style.display = 'initial';
+          if (successIcon) successIcon.style.display = 'none';
+        }, 1000);
       }
-      if (copyIcon) copyIcon.style.display = 'initial';
-      if (successIcon) successIcon.style.display = 'none';
-    }, 1000);
+    }
   }
+
+  
+  // Tell the browser to use our ColorPicker class for <color-picker> elements.
+  customElements.define('color-picker', ColorPicker);
+
+  
 
 </script>
