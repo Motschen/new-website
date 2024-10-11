@@ -14,9 +14,8 @@ import { Icon } from 'astro-icon/components'
 <div id="main-navigation" class="is-desktop py-8">
   <div class="container">
     <a href="/" class="flex items-center gap-2 !no-underline">
-      <!-- <Image src={logo} class="drop-shadow-md fill-black" alt="MidnightDust Logo" width="47" height="47" /> -->
       <Icon name="ion:sparkles-outline" width="24" height="24" />
-      <span class="font-bold">MidnightDust – Mods by Motschen</span>
+      <span class="font-bold midnightdust-text">MidnightDust</span>
     </a>
     <div class="wrapper">
       <nav class="desktop-menu" aria-label="Main navigation desktop">
@@ -39,6 +38,7 @@ import { Icon } from 'astro-icon/components'
   document.addEventListener('astro:page-load', () => {
     // variables
     const mainNav = document.querySelector('#main-navigation')
+    if (!mainNav) return;
     const mainMenu = mainNav.querySelector('ul')
     const dropdownMenus = [...document.querySelectorAll('.has-dropdown button')]
 
