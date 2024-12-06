@@ -25,7 +25,7 @@ var versionMap = await Object.keys(finishedArray).reduce(function(map, value) {
 }, {});
 versionList = await Object.keys(versionMap).sort().reverse();
 
-export var selectedVersion = "1.21.3";
+export var selectedVersion = "1.21.4";
 
 
 export function setLoaderVersion(version) {
