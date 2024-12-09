@@ -11,5 +11,14 @@ export default defineConfig({
   compressHTML: true,
   integrations: [mdx(), icon(), tailwind({
     applyBaseStyles: false
-  }), alpinejs()]
+  }), alpinejs()],
+  vite: {
+    css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler'
+            }
+        }
+    }
+  }
 });

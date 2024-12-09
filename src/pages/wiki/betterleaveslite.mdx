@@ -1,0 +1,101 @@
+---
+layout: ../../layouts/MarkdownLayout.astro
+title: Better Leaves Lite Wiki
+---
+
+import { Icon } from 'astro-icon/components'
+import { Notification } from 'accessible-astro-components'
+import CustomTabs from "../../components/CustomTabs.astro"
+
+# Better Leaves Lite Wiki
+
+Welcome to the Better Leaves Lite wiki.  
+This documentation aims to help you create your own flavour for any texturepack or mod.  
+
+## Getting Started
+First of all, you need to download the contents of the GitHub repository.  
+To do so, you can either download the [zip file](https://github.com/TeamMidnightDust/BetterLeavesLite/archive/refs/heads/main.zip), or just execute
+```bash
+git clone https://github.com/TeamMidnightDust/BetterLeavesLite.git
+```
+in a terminal window.
+
+## Texturepacks
+You can easily create a build for any texturepack.  
+Just add the pack to the input/texturepacks/ folder.  
+After that, follow the Building section to get your flavour!
+
+## Mods
+In simple cases, it is enough to put the mod file in the /input/mods folder and continue with the Building section.  
+If you see missing textures when trying your freshly-built pack, the mod has a more complicated asset structure.  
+In these cases, you unfortunately have to manually configure exceptions in the /input/overrides.json file.  
+```json
+{
+    // Leaves that should not be tinted based on the biome they're in
+    "noTint": [
+        "minecraft:azalea_leaves",
+        "minecraft:flowering_azalea_leaves"
+    ],
+    // For mods that add leaf carpets/piles, you need to map them to the respective leaf block
+    "leavesWithCarpet": {
+        "terrestria:sakura_leaves": "terrestria:sakura_leaf_pile"
+    },
+    // If a mod uses a different texture for the block compared to the item
+    "blockTextures": {
+        "biomesoplenty:rainbow_birch_leaves": "minecraft:block/birch_leaves"
+    },
+    // For leaf blocks that use multiple textures (typically used for fruit leafs)
+    "overlayTextures": {
+        "biomesoplenty:pine_leaves": "biomesoplenty:block/pine_leaves_overlay"
+    },
+    // For blocks that are named differently from their texture
+    "blockIds": {
+        "terrestria:japanese_maple_leaves_dark": "terrestria:dark_japanese_maple_leaves"
+    },
+    // Define the respective Dynamic Trees addon namespace for any mod
+    "dynamicTreesNamespaces": {
+        "minecraft": "dynamictrees",
+        "aether": "dtaether"
+    }
+}
+```
+
+## Building
+To build your flavour of the pack, you need to have Python installed on your system.  
+You can get it on any modern operating system.  
+
+<CustomTabs tabs={[{
+    name: `Windows`,
+    id: 'windows',
+    icon: 'simple-icons:windows',
+    active: true
+}, {
+    name: `Linux`,
+    icon: 'linux',
+    id: 'linux'
+}, {
+    name: `MacOS`,
+    icon: 'simple-icons:apple',
+    id: 'macos'
+}]}>
+    <div id="windows" data-active="true">
+      Download the latest stable Python 3 release from the official <a href="https://www.python.org/downloads/windows/">website</a><br/>
+      or using winget in PowerShell: <br/>
+      `winget install -e --id Python.Python.3.13.1`
+    </div>
+    <div id="linux" class="hidden">
+      On most systems, Python should already be installed by default.<br/>
+      Else, just install Python using your distro's package manager.
+    </div>
+    <div id="macos" class="hidden">
+      In case you haven't already, install Homebrew according to the <a href="https://brew.sh/">official instructions</a>.<br/>
+      Now, you can just install python using the  `brew install python`  command.
+    </div>
+</CustomTabs>
+
+Now that you have python installed, head back into the BetterLeavesLite directory.  
+Here, you should now open a terminal window and run  
+```bash
+python3 gen_pack.py yourversionname
+```
+And in no time, the script will generate a ready-to-use zip file with your specified name.
