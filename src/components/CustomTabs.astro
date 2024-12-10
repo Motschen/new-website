@@ -63,12 +63,13 @@ import { Icon } from 'astro-icon/components'
     button.tab {
         color: var(--font-color);
         border: none;
+        border-bottom: 2px solid transparent;
         opacity: 75%;
     }
     button.tab[data-active="true"] {
         opacity: 100%;
         border-bottom: 2px solid var(--action-color);
-        background: linear-gradient(0deg, var(--action-color) 0%, transparent 15%);
+        background: linear-gradient(0deg, var(--action-color) 0%,var(--action-color) 5%, transparent 20%);
     }
     #tabs-header {
         margin-left: 6px;

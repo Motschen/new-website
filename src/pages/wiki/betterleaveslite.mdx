@@ -23,10 +23,10 @@ in a terminal window.
 ## Texturepacks
 You can easily create a build for any texturepack.  
 Just add the pack to the input/texturepacks/ folder.  
-After that, follow the Building section to get your flavour!
+After that, follow the <a href="#building">Building</a> section to get your flavour!
 
 ## Mods
-In simple cases, it is enough to put the mod file in the /input/mods folder and continue with the Building section.  
+In simple cases, it is enough to put the mod file in the /input/mods folder and continue with the <a href="#building">Building</a> section.  
 If you see missing textures when trying your freshly-built pack, the mod has a more complicated asset structure.  
 In these cases, you unfortunately have to manually configure exceptions in the /input/overrides.json file.  
 ```json
@@ -81,15 +81,24 @@ You can get it on any modern operating system.
     <div id="windows" data-active="true">
       Download the latest stable Python 3 release from the official <a href="https://www.python.org/downloads/windows/">website</a><br/>
       or using winget in PowerShell: <br/>
-      `winget install -e --id Python.Python.3.13.1`
+      ```bash
+      winget install -e --id Python.Python.3.13.1
+      ```
     </div>
     <div id="linux" class="hidden">
       On most systems, Python should already be installed by default.<br/>
-      Else, just install Python using your distro's package manager.
+      Else, just install Python using your distro's package manager.  
+      Arch Linux:
+      ```bash
+      pacman -S python
+      ```
     </div>
     <div id="macos" class="hidden">
       In case you haven't already, install Homebrew according to the <a href="https://brew.sh/">official instructions</a>.<br/>
-      Now, you can just install python using the  `brew install python`  command.
+      Now, you can just install python using the following command:
+      ```bash
+      brew install python
+      ```
     </div>
 </CustomTabs>
 
