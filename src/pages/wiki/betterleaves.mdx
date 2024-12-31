@@ -1,0 +1,128 @@
+---
+layout: ../../layouts/MarkdownLayout.astro
+title: Better Leaves Wiki
+---
+
+import ImgComparisonSlider from '../../components/ImgComparisonSlider.astro'
+import { Icon } from 'astro-icon/components'
+import { Notification } from 'accessible-astro-components'
+import CustomTabs from "../../components/CustomTabs.astro"
+
+# Better Leaves Wiki
+
+Welcome to the Better Leaves wiki.  
+This documentation aims to help you create your own flavour for any texturepack or mod.  
+
+<br/>
+<ImgComparisonSlider imgBefore="/betterleaves/script.png" imgAfter="/betterleaves/ingame.png" captionBefore='Python Code' captionAfter='Ingame'/>
+<p class="text-center italic">Better Leaves 9.0 is automatically generated using our Python script</p>  
+
+## Getting Started
+First of all, you need to download the contents of the GitHub repository.  
+To do so, you can either download the [zip file](https://github.com/TeamMidnightDust/BetterLeavesLite/archive/refs/heads/main.zip), or just execute
+```bash
+git clone https://github.com/TeamMidnightDust/BetterLeavesLite.git
+```
+in a terminal window.
+
+## Texturepacks
+You can easily create a build for any texturepack.  
+Just add the pack (as a .zip file or folder) to the input/texturepacks/ folder.  
+After that, follow the <a href="#building">Building</a> section to get your flavour!
+
+<center><img alt="An overview of the input folder" src="/betterleaves/input-folder.png" width="500"></img></center>
+<p class="text-center italic">The input folder is all you have to worry about</p>  
+
+## Mods
+In simple cases, it is enough to put the mod file in the /input/mods folder and continue with the <a href="#building">Building</a> section.  
+
+<center><img alt="An overview of the input/mods folder, showing the automatic unpacking process" src="/betterleaves/mods-unpacking.png" width="500"></img></center>
+<p class="text-center italic">Put the .jar file ito input/mods, and the script will take care of extracting all textures with "leaves" in their name.
+<br/>The _temp folder is purely symbolic here, it will only exist for a few milliseconds during the extraction process.</p>
+
+## Building
+To build your flavour of the pack, you need to have Python installed on your system.  
+You can get it on any modern operating system.  
+
+<CustomTabs tabs={[{
+    name: `Windows`,
+    id: 'windows',
+    icon: 'simple-icons:windows',
+    active: true
+}, {
+    name: `Linux`,
+    icon: 'linux',
+    id: 'linux'
+}, {
+    name: `MacOS`,
+    icon: 'simple-icons:apple',
+    id: 'macos'
+}]}>
+    <div id="windows" data-active="true">
+      Download the latest stable Python 3 release from the official <a href="https://www.python.org/downloads/windows/">website</a><br/>
+      or using winget in PowerShell:  
+      <br/>
+      ```bash
+      winget install -e --id Python.Python.3.13.1
+      ```
+    </div>
+    <div id="linux" class="hidden">
+      On most systems, Python should already be installed by default.<br/>
+      Else, just install Python using your distro's package manager.  
+      <br/>
+      Arch Linux:  
+      ```bash
+      pacman -S python
+      ```
+    </div>
+    <div id="macos" class="hidden">
+      In case you haven't already, install Homebrew according to the <a href="https://brew.sh/">official instructions</a>.<br/>
+      Now, you can just install python using the following command:  
+      <br/>
+      ```bash
+      brew install python
+      ```
+    </div>
+</CustomTabs>
+
+Now that you have python installed, head back into the BetterLeavesLite directory.  
+Here, you should now open a terminal window and run  
+```bash
+python3 gen_pack.py 1.0 Your Edition
+```
+Replace "1.0" with your desired version number and "Your Edition" with the name you'd like to appear in the resourcepack description ingame.  
+And in no time, the script will generate a ready-to-use zip file with your desired content.
+
+## (Advanced) Irregularities and Missing Textures
+If you see missing textures when trying your freshly-built pack, the mod you're adding support for has a more complicated asset structure.  
+In these cases, you unfortunately have to manually configure exceptions in the /input/overrides.json file.  
+```json
+{
+    // Leaves that should not be tinted based on the biome they're in
+    "noTint": [
+        "minecraft:azalea_leaves",
+        "minecraft:flowering_azalea_leaves"
+    ],
+    // For mods that add leaf carpets/piles, you need to map them to the respective leaf block
+    "leavesWithCarpet": {
+        "terrestria:sakura_leaves": "terrestria:sakura_leaf_pile"
+    },
+    // If a mod uses a different texture for the block compared to the item
+    "blockTextures": {
+        "biomesoplenty:rainbow_birch_leaves": "minecraft:block/birch_leaves"
+    },
+    // For leaf blocks that use multiple textures (typically used for fruit leafs)
+    "overlayTextures": {
+        "biomesoplenty:pine_leaves": "biomesoplenty:block/pine_leaves_overlay"
+    },
+    // For blocks that are named differently from their texture
+    "blockIds": {
+        "terrestria:japanese_maple_leaves_dark": "terrestria:dark_japanese_maple_leaves"
+    },
+    // Define the respective Dynamic Trees addon namespace for any mod
+    "dynamicTreesNamespaces": {
+        "minecraft": "dynamictrees",
+        "aether": "dtaether"
+    }
+}
+```
