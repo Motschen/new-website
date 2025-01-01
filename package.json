@@ -37,7 +37,6 @@
   "dependencies": {
     "@astrojs/alpinejs": "^0.4.1",
     "@types/alpinejs": "^3.13.10",
-    "alpinejs": "^3.14.1",
-    "img-comparison-slider": "^8.0.6"
+    "alpinejs": "^3.14.1"
   }
 }

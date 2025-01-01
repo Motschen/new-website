@@ -4,7 +4,8 @@ title: Life is changing
 author: Martin Prokoph
 date: 11th October 2024
 ---
-import ImgComparisonSlider from '../../components/ImgComparisonSlider.astro'
+import ImageComparison from '../../components/ImageComparison.astro'
+import { Image } from 'astro:assets' 
 
 I started modding games back in 2018, when I was just 12 years old.  
 In fact, Round Trees – one of my most popular resourcepacks to this day – had its first release back then.  
@@ -24,7 +25,10 @@ MidnightLib also deserves a mention.
 After becoming frustrated about the large file size of other config libraries, I had decided to take it on myself and write a tiny – but still feature-packed – config library, a task that I think I absolutely nailed.  
 It is not only the basis for the vast majority of my mods, but also a lot of third-party ones, such as Effective, The Bumblezone, Bewitchment, as well as many others.  
 
-<ImgComparisonSlider imgBefore="/blog/life/midnightlib-0.2.4.png" imgAfter="/blog/life/midnightlib-1.6.3.png" captionBefore='MidnightLib 0.2.4' captionAfter='MidnightLib 1.6.3'/>
+<ImageComparison firstTitle="MidnightLib 0.2.4" secondTitle="MidnightLib 1.6.3" sliderColor='var(--action-color)' sliderShadowColor='var(--action-color)'> 
+    <Image slot="first-image" width="1920" height="1080" alt="A config screen generated with MidnightLib 0.2.4"  src="/blog/life/midnightlib-0.2.4.png"/>
+    <Image slot="second-image" width="1920" height="1080" alt="A config screen generated with MidnightLib 1.6.3" src="/blog/life/midnightlib-1.6.3.png"/>
+</ImageComparison>
 <p class="text-center italic">MidnightLib has come a long way</p>
 
 Fast forward to today, I've created over 25 mods and resourcepacks, which have almost reached a total download amount of a staggering 100 Million!  

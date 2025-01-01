@@ -3,10 +3,13 @@ layout: ../../layouts/MarkdownLayout.astro
 title: Better Leaves Wiki
 ---
 
-import ImgComparisonSlider from '../../components/ImgComparisonSlider.astro'
+import ImageComparison from '../../components/ImageComparison.astro'
+import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components'
 import { Notification } from 'accessible-astro-components'
 import CustomTabs from "../../components/CustomTabs.astro"
+import pythonCodeImage from '../../assets/betterleaves/script.png';
+import ingameImage from '../../assets/betterleaves/ingame.png';
 
 # Better Leaves Wiki
 
@@ -14,8 +17,10 @@ Welcome to the Better Leaves wiki.
 This documentation aims to help you create your own flavour for any texturepack or mod.  
 
 <br/>
-<ImgComparisonSlider imgBefore="/betterleaves/script.png" imgAfter="/betterleaves/ingame.png" captionBefore='Python Code' captionAfter='Ingame'/>
-<p class="text-center italic">Better Leaves 9.0 is automatically generated using our Python script</p>  
+<ImageComparison firstTitle="Python Code" secondTitle="In-Game" sliderColor='var(--action-color)' sliderShadowColor='var(--action-color)'> 
+    <Image slot="first-image" width="1920" height="1080" alt="A screenshot showing the Python script code"  src={pythonCodeImage}/>
+    <Image slot="second-image" width="1920" height="1080" alt="A screenshot of the Better Leaves resourcepack in action" src={ingameImage}/>
+</ImageComparison>
 
 ## Getting Started
 First of all, you need to download the contents of the GitHub repository.  
@@ -37,7 +42,7 @@ After that, follow the <a href="#building">Building</a> section to get your flav
 In simple cases, it is enough to put the mod file in the /input/mods folder and continue with the <a href="#building">Building</a> section.  
 
 <center><img alt="An overview of the input/mods folder, showing the automatic unpacking process" src="/betterleaves/mods-unpacking.png" width="500"></img></center>
-<p class="text-center italic">Put the .jar file ito input/mods, and the script will take care of extracting all textures with "leaves" in their name.
+<p class="text-center italic">Put the .jar file into input/mods, and the script will take care of extracting all textures with "leaves" in their name.
 <br/>The _temp folder is purely symbolic here, it will only exist for a few milliseconds during the extraction process.</p>
 
 ## Building

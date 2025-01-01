@@ -1,0 +1,29 @@
+---
+layout: ../../layouts/MarkdownLayout.astro
+title: Image Comparison Slider for Astro
+---
+
+import ImageComparison from '../../components/ImageComparison.astro'
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components'
+
+# Image Comparison Slider for Astro
+
+Image comparison sliders are useful for comparing a previous state to the current one.  
+Since I wasn't fully satisfied with existing solutions, I created my own.   
+
+<ImageComparison firstTitle="lol" secondTitle="omg"> 
+    <Image slot="first-image" alt="alt" width="500" height="500" src="https://images.unsplash.com/photo-1532680281192-617c0da3810c?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
+    <img slot="second-image" src="https://images.unsplash.com/photo-1539757812543-fe5fb5746951?q=80&w=3039&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
+</ImageComparison>
+
+You can even customize the style to best fit your needs.
+<ImageComparison sliderColor='var(--action-color)' sliderShadowColor='var(--action-color)'> 
+    <Image slot="first-image" alt="alt" width="500" height="500" src="https://images.unsplash.com/photo-1532680281192-617c0da3810c?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
+    <img slot="second-image" src="https://images.unsplash.com/photo-1539757812543-fe5fb5746951?q=80&w=3039&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
+
+    <p slot="first-title" class="absolute top-1/2 left-1 translate-x-1/2 -translate-y-1/2 text-6xl font-bold text-center text-white [text-shadow:_0_0_15px_rgb(0_0_0_/_40%)]">lol</p>
+    <p slot="second-title" class="absolute top-1/2 right-1 -translate-x-1/2 -translate-y-1/2 text-6xl font-bold text-center text-white [text-shadow:_0_0_15px_rgb(0_0_0_/_40%)]">omg</p>
+
+    <Icon slot="handle-icon" name="line-md:star-pulsating-filled-loop" width={32} height={32}/>
+</ImageComparison>

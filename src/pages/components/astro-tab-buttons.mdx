@@ -1,0 +1,71 @@
+---
+layout: ../../layouts/MarkdownLayout.astro
+title: Tab Button Component for Astro
+---
+
+import { Icon } from 'astro-icon/components'
+import CustomTabs from "../../components/CustomTabs.astro"
+
+# Tab Button Component for Astro
+
+Having a paragraph of your text seperated by tabs can help readers choose their own path.  
+It is therefore a great way to improve your website's interactivity.  
+
+<CustomTabs tabs={[{
+    name: `Tab 1`,
+    id: 'tab1',
+    icon: 'simple-icons:astro',
+    active: true
+}, {
+    name: `Tab 2`,
+    id: 'tab2',
+    icon: 'line-md:cloud-alt-tags-filled-loop'
+}]}>
+    <div id="tab1" data-active="true">
+      Content in these divs can be written as regular Markdown in MDX files.  
+      Otherwise, you can just add any HTML tags as usual.  
+      The tab icons are powered by the awesome [Astro Icon](https://www.astroicon.dev/) component.  
+    </div>
+    <div id="tab2" class="hidden">
+      ```java
+      You can even use code blocks in here :D
+      ```
+    </div>
+</CustomTabs>
+
+<br/>
+A common use case for these are installation guides for different operating systems:
+<CustomTabs tabs={[{
+    name: `Windows`,
+    id: 'windows',
+    icon: 'simple-icons:windows',
+    active: true
+}, {
+    name: `Linux`,
+    icon: 'linux',
+    id: 'linux'
+}, {
+    name: `MacOS`,
+    icon: 'simple-icons:apple',
+    id: 'macos'
+}, {
+    name: `BSD`,
+    icon: 'simple-icons:freebsd',
+    id: 'bsd'
+}]}>
+    <div id="windows" data-active="true">
+      Step 1: Download a Linux ISO and flash it to a USB stick  
+      Step 2: Uninstall Windows  
+      Step 3: Install Linux  
+      Step 4: Continue with the Linux section
+    </div>
+    <div id="linux" class="hidden">
+      Get yourself a nice meal, you're goated!
+    </div>
+    <div id="macos" class="hidden">
+      A monitor stand for over 1000€... Are you serious?
+    </div>
+    <div id="bsd" class="hidden">
+      Get a life. For real.
+    </div>
+</CustomTabs>
