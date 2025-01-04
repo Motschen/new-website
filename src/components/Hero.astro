@@ -7,9 +7,11 @@ const { src = '/motschensummer-cutout.png' } = Astro.props
 <section class="hero my-12">
   <div class="container">
     <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
-      <div class="flex flex-col items-center gap-8 md:items-start">
+      <div class="flex flex-col items-center gap-8 md:items-start rellax -z-10" data-rellax-desktop-speed="-5" data-rellax-speed="-4">
         <h1 class="text-center text-6xl md:text-left lg:text-8xl">
-          <slot><span class="text-gradient drop-shadow-xl">Modding</span> done with passion</slot>
+          <slot>
+            <span id="modding-text" class="text-gradient">Modding</span> 
+            <p>done with passion</p></slot>
         </h1>
         <div class="flex flex-col gap-3 min-[500px]:flex-row">
           <a class="button has-icon" href="https://github.com/Motschen">
@@ -23,10 +25,63 @@ const { src = '/motschensummer-cutout.png' } = Astro.props
           </a>
         </div>
       </div>
-      <img class="hidden lg:block" src={src} alt="" decoding="async" />
+      <div class="rellax -z-10" data-rellax-speed="-7">
+        <img class="hidden lg:block" src={src} alt="" decoding="async" data-tilt data-tilt-full-page-listening />
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  import VanillaTilt from 'vanilla-tilt'
+  
+  function initTilt() {
+    VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
+      max: 25,
+      speed: 400,
+    })
+  }
+
+  function replaceModdingText() {
+    const moddingText = document.getElementById('modding-text');
+    let textIndex = 0;
+
+    function textLoop() {
+      if (!moddingText || !moddingText.textContent) return;
+      const texts = ['Community', 'Design', 'Coding', 'Modding'];
+      replaceText(texts[textIndex]);
+      textIndex = (textIndex + 1) % texts.length;
+    }
+    function replaceText(replacementText) {
+      if (!moddingText || !moddingText.textContent) return;
+      const delay = 90;
+
+      moddingText.textContent += "|";
+      let lastTimeout = (moddingText.textContent.length - 1) * delay;
+      for (let i = 0; i < moddingText.textContent.length; i++) {
+        setTimeout(() => {
+          moddingText.textContent = moddingText.textContent.slice(0, -2)+'|';
+        }, i*delay);
+      }
+      for (let i = 0; i < replacementText.length+2; i++) {
+        setTimeout(() => {
+          moddingText.textContent = replacementText.substring(0, i);
+          if (i < replacementText.length+1) moddingText.textContent += '|';
+        }, lastTimeout + i*delay);
+      }
+
+    }
+    if (moddingText) setInterval(textLoop, 5000);
+  }
+  
+  initTilt();
+  replaceModdingText();
+
+  document.addEventListener('astro:after-swap', () => {
+    initTilt();
+    replaceModdingText();
+  })
+</script>
 
 <style>
   .text-gradient {

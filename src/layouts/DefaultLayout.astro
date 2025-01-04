@@ -70,7 +70,6 @@ const {
       // sticky footer on low content pages
       html,
       body {
-        height: 100%;
         overflow-x: hidden;
       }
 
@@ -110,3 +109,17 @@ const {
     </style>
   </body>
 </html>
+<script>
+  import Rellax from 'rellax';
+
+  function initRellax() {
+    var rellax = new Rellax('.rellax', {
+      center: true
+    });
+  }
+  initRellax();
+  document.addEventListener('astro:after-swap', () => {
+    initRellax();
+  })
+  
+</script>

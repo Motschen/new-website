@@ -37,6 +37,9 @@
   "dependencies": {
     "@astrojs/alpinejs": "^0.4.1",
     "@types/alpinejs": "^3.13.10",
-    "alpinejs": "^3.14.1"
+    "@types/rellax": "^1.7.7",
+    "alpinejs": "^3.14.1",
+    "rellax": "^1.12.1",
+    "vanilla-tilt": "^1.8.1"
   }
 }
