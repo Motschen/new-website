@@ -1,0 +1,172 @@
+---
+interface Props {
+  modid: string
+}
+const { modid } = Astro.props
+---
+
+<gradle-version modid={modid}>
+  <div class="wrapper">
+    <label for="loader-selector" class="sr-only">Select the Modloader</label>
+    <select
+      name="loader-selector"
+      id="loader-selector"
+      class="selector cursor-pointer rounded-md pl-3 pr-2 py-1.5 border-2 dark:border-green-300 dark:bg-neutral-800 dark:text-white focus-visible:outline-none"
+      aria-label="Choose the Modloader">
+      
+    </select>
+    <label for="version-selector" class="sr-only">Select the Version</label>
+    <select
+      name="version-selector"
+      id="version-selector"
+      class="selector cursor-pointer rounded-md ml-2 pl-3 pr-2 py-1.5 border-2 dark:border-green-300 dark:bg-neutral-800 dark:text-white focus-visible:outline-none"
+      aria-label="Choose the Version">
+    </select>
+  </div>
+  <pre class="mt-2"><code class="language-java" id=`${modid}-version` >{modid}_version = <span id="resulting-version"/></code></pre>
+</gradle-version>
+
+<script>
+class VersionInfo {
+    loaderList: any;
+    versionList: any;
+    finishedArray: any;
+    modInfo: any;
+    
+    selectedLoader: string;
+    selectedVersion: string;
+
+    constructor(loaderList: any, finishedArray: any, modInfo: any) {
+        this.loaderList = loaderList;
+        this.finishedArray = finishedArray;
+        this.modInfo = modInfo;
+        this.selectedLoader = this.loaderList[0];
+        this.versionList = this.loadVersionList();
+        this.selectedVersion = this.versionList[0];
+    }
+
+    setLoaderVersion(version: string) {
+        this.selectedLoader = version;
+        this.versionList = this.loadVersionList();
+    }
+    setGameVersion(version: string) {
+        this.selectedVersion = version;
+    }
+
+    /**
+     * Tries to get the mod version for the selected Minecraft version and Modloader
+     * @returns The resulting mod version
+     */
+    getResultingVersion(): string {
+        let resultingVersionID = this.finishedArray[this.selectedLoader + "+" + this.selectedVersion];
+        let resultingVersion = "Not available";
+        if (this.selectedLoader != "forge") resultingVersion += " (yet)"
+        try {
+            resultingVersion = this.modInfo.find((info: any) => info.id == resultingVersionID).version_number;
+        } catch {}
+        return resultingVersion;
+    }
+
+    /**
+     * Loads the version list from the finishedArray
+     * @returns A list of all the versions for the selected Modloader
+     * */
+    loadVersionList() {
+        let selectedLoader = this.selectedLoader;
+        let versionMap = Object.keys(this.finishedArray).reduce(function(map, value) { 
+            if (value.startsWith(selectedLoader)) {
+                const version = value.split("+")[1];
+                if (!Object.values(map).includes(version)) {
+                    map[version] = "";
+                }
+            }
+            return map;
+        }, {});
+        let versionList = Object.keys(versionMap).sort().reverse();
+        versionList = versionList.filter((version) => !version.includes("w") // Sorts out snapshots
+            && (!version.includes("-") || !versionList.includes(version.split("-")[0]) // Sorts out pre-releases/release candidates for releases that are already out
+        ));
+        return versionList;
+    }
+    
+    /**
+     * Loads the version info from Modrinth
+     * @param modid The ID of the mod
+     */
+    static async load(modid: string): Promise<VersionInfo> {
+        const modInfo = await fetch(`https://api.modrinth.com/v2/project/${modid}/version`).then((response) => response.json())
+        const loaderList = ['fabric', 'quilt', 'forge', 'neoforge'];
+        let sortedModInfo = Object.values(modInfo).sort((entry1: any, entry2: any) => new Date(entry1.date_published) < new Date(entry2.date_published) ? -1 : 1);
+
+        var finishedArray = sortedModInfo.reduce(function(map: any, value: any) {
+            value.game_versions.forEach((version: string) => {
+                value.loaders.forEach((loader: string) => {
+                    const loaderAndVersion = loader + "+" +version;
+                    map[loaderAndVersion] = value.id;
+                });
+            });
+        return map;
+        }, {});
+
+        return new VersionInfo(loaderList, finishedArray, modInfo);
+    }
+}
+
+// Define the behaviour for our new type of HTML element.
+class VersionElement extends HTMLElement {
+  static observedAttributes = ["modid"];
+
+  connectedCallback() {
+    var modid = this.getAttribute("modid");
+    if (modid == null) return;
+    
+    // Get the gradle.properties code block
+    const versionLabel = document.getElementById("resulting-version");
+    // Get the 2 selectors defined above
+    const loaderSelector = document.getElementById("loader-selector");
+    const versionSelector = document.getElementById("version-selector");
+    
+    VersionInfo.load(modid).then((versionInfo) => {
+        if (loaderSelector instanceof HTMLSelectElement) {
+            versionInfo.loaderList.forEach((loader: string) => {
+                loaderSelector.options[loaderSelector.options.length] = new Option(loader.charAt(0).toUpperCase() + loader.replace("neoforge", "NeoForge").slice(1), loader);
+            })
+        }
+        if (versionSelector instanceof HTMLSelectElement) {
+            versionInfo.versionList.forEach((version: string) => {
+                versionSelector.options[versionSelector.options.length] = new Option(version, version);
+            })
+        }
+
+        if (versionLabel) versionLabel.innerText = versionInfo.getResultingVersion();
+
+        loaderSelector?.addEventListener("change", async (e) => {
+            const {
+                target: { value }, // Returns the current loader string
+            } = e;
+
+            versionInfo.setLoaderVersion(value);
+            if (versionLabel) versionLabel.innerText = versionInfo.getResultingVersion();
+        });
+        versionSelector?.addEventListener("change", async (e) => {
+            const {
+                target: { value }, // Returns the current version string
+            } = e;
+
+            versionInfo.setGameVersion(value);
+            if (versionLabel) versionLabel.innerText = versionInfo.getResultingVersion();
+        });
+    });
+  }
+
+  
+}
+// Tell the browser to use our VersionElement class for <gradle-version> elements.
+customElements.define('gradle-version', VersionElement);
+</script>
+
+<style lang="scss" is:global>
+  .selector:is(.darkmode *) {
+    background-color: var(--dark-100);
+  }
+</style>
