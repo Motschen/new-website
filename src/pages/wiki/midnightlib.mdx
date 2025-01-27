@@ -91,24 +91,24 @@ public class MidnightConfigExample extends MidnightConfig {
     @Entry(category = LISTS, name = "I am a float list!") public static List<Float> floatList = Lists.newArrayList(4.1f, -1.3f, -1f);
 
     @Entry(category = FILES,
-            selectionMode = JFileChooser.FILES_ONLY,
+            selectionMode = JFileChooser.FILES_ONLY, // The FILES_ONLY selectionMode adds a file picker button
             fileExtensions = {"json", "txt", "log"}, // Define valid file extensions
             fileChooserType = JFileChooser.SAVE_DIALOG,
             name = "I am a file!")
-    public static String myFile = ""; // The isFile property adds a file picker button
+    public static String myFile = "";
 
     @Entry(category = FILES,
-            selectionMode = JFileChooser.DIRECTORIES_ONLY,
+            selectionMode = JFileChooser.DIRECTORIES_ONLY, // The DIRECTORIES_ONLY selectionMode adds a directory picker button
             fileChooserType = JFileChooser.OPEN_DIALOG,
             name = "I am a directory!")
-    public static String myDirectory = ""; // The isDirectory property adds a directory picker button
+    public static String myDirectory = "";
 
     @Entry(category = FILES,
-            selectionMode = JFileChooser.FILES_AND_DIRECTORIES,
+            selectionMode = JFileChooser.FILES_AND_DIRECTORIES, // The FILES_AND_DIRECTORIES selectionMode adds a file or directory picker button
             fileExtensions = {"png", "jpg", "jpeg"},
             fileChooserType = JFileChooser.OPEN_DIALOG,
             name = "I can choose both files & directories!")
-    public static String myFileOrDirectory = ""; // The isFileOrDirectory property adds a file or directory picker button
+    public static String myFileOrDirectory = "";
     @Entry(category = FILES,
             selectionMode = JFileChooser.FILES_AND_DIRECTORIES,
             fileExtensions = {"png", "jpg", "jpeg"},
@@ -130,8 +130,12 @@ The .json language file for your config class could look similar to this:
 	"modid.midnightconfig.text2":"I am a centered comment (╯°□°）╯︵ ┻━┻",
 	"modid.midnightconfig.name":"I am a string!",
 	// Translation for the field "name" defined in the example config
+	"modid.midnightconfig.name.label.tooltip":"I am a label tooltip \nWohoo!",
+	// When hovering over the *text label* for the option "name",
+	// this text will appear as a tooltip.
+	// "\n" inserts a line break.
 	"modid.midnightconfig.name.tooltip":"I am a tooltip uwu \nI am a new line",
-	// When hovering over the option "showInfo",
+	// When hovering over the *button* for the option "name",
 	// this text will appear as a tooltip.
 	// "\n" inserts a line break.
 	"modid.midnightconfig.fabric":"I am an int",
